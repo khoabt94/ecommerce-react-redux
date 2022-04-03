@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { InputField, SelectField } from "../components/index";
-import { userRegister } from "../slice/userSlice";
+import { userActions } from "../slice/userSlice";
 
 const optionSex = [
   { value: "male", label: "Male" },
@@ -46,9 +46,7 @@ const RegisterPage = () => {
       // validationSchema={schema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
-          const action = userRegister(values);
-          console.log(action, values);
-          dispatch(action);
+          dispatch(userActions.userRegister());
           setSubmitting(false);
           resetForm();
         }, 2000);

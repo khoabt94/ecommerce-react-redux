@@ -1,18 +1,18 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { API, fetcher } from "../config";
-import useSWR from "swr";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slice/cartSlice";
+import { selectedProducts } from "../slice/productsAsyncAction/selectors";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const { data, error } = useSWR(API.baseUrl, fetcher);
-  const cartList = useSelector((state) => state.cart);
+
+  const listProducts = useSelector(selectedProducts);
+
   const dispatch = useDispatch();
 
   const [{ title, category, description, image, price, rating, id }] =
-    data?.filter((el) => el.id === +productId) || [];
+  listProducts?.filter((el) => el.id === +productId) || [];
 
   const handleAddToCart = () => {
     const action = addToCart({ title, image, price, quantity: 1, id });

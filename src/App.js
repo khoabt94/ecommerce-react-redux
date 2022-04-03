@@ -6,6 +6,7 @@ import {
   ProductDetail,
   Cart,
   ContactPage,
+  RegisterPage,
 } from "./pages/index";
 
 import { NavBar } from "./components/index";
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:productId" element={<ProductDetail />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </div>
   );
