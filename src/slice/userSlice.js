@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userSlice = createSlice({
+const {actions, reducer} = createSlice({
   name: "user",
   initialState: [],
   reducers: {
@@ -8,9 +8,12 @@ const userSlice = createSlice({
       state.push(action.payload);
       // localStorage.setItem("userdata", state);
     },
-  },
+  }
 });
 
-const { actions, reducer } = userSlice;
-export const { userRegister } = actions;
-export default userSlice;
+const combineActions = {
+  ...actions,
+  
+}
+
+export { combineActions as userActions, reducer};

@@ -42,7 +42,7 @@ const NavBar = () => {
           </li>
         </ul>
         <div className="flex gap-x-2">
-          {/* <button className="flex items-center px-2 py-2 border border-gray-800 rounded-md btn gap-x-2">
+          <button className="flex items-center px-2 py-2 border border-gray-800 rounded-md btn gap-x-2">
             <i className="fa-solid fa-right-to-bracket"></i>
             <p>Log In</p>
           </button>
@@ -52,7 +52,7 @@ const NavBar = () => {
           >
             <i className="fa-solid fa-user"></i>
             <p>Register</p>
-          </Link> */}
+          </Link>
           <Link
             to="/cart"
             className="flex items-center px-2 py-2 border border-gray-800 rounded-md btn gap-x-2"
