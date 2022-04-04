@@ -30,11 +30,11 @@ const Cart = () => {
   };
 
   return (
-    <div className="flex flex-col pt-32 pb-20 page-container gap-y-10">
+    <div className="flex flex-col pt-16 lg:pt-32 pb-20 page-container gap-y-10">
       <h2 className="py-5 text-5xl font-bold text-center border-b-2 border-gray-300">
         Your Cart
       </h2>
-      <div className="flex flex-col w-3/4 mx-auto gap-y-6">
+      <div className="flex flex-col lg:w-3/4 w-full mx-auto gap-y-6">
         {submitting ? (
           <h2 className="py-5 text-xl italic font-bold text-center">
             Your order is processed. You will be redirect to HomePage when we
@@ -51,25 +51,25 @@ const Cart = () => {
           ))
         )}
       </div>
-      <div className="flex px-20 gap-x-10">
+      <div className="flex gap-10 lg:flex-row lg:w-3/4 w-full mx-auto flex-col-reverse">
         <button
           type="submit"
-          className="flex items-center justify-center flex-1 px-2 py-2 border border-gray-400 rounded-md btn gap-x-2"
+          className="flex items-center justify-center flex-1 px-4 py-5 border border-gray-400 rounded-md btn gap-x-2"
           disabled={submitting}
           onClick={handlePayment}
         >
           {submitting ? (
             <div className="w-10 h-10 mx-auto border-4 border-t-4 border-black rounded-full border-t-transparent animate-spin"></div>
           ) : (
-            <p className="text-3xl font-medium">
+            <p className="text-2xl font-medium">
               <i className="mr-3 fa-regular fa-money-bill-1"></i>
               Proceed to Payment
             </p>
           )}
         </button>
-        <h2 className="flex-1 py-5 text-3xl text-center border border-gray-400 rounded-lg shadow-sm bg-slate-200">
-          Your Cart Value:{" "}
-          <span className="font-bold">$ {sumCart.toFixed(2)}</span>
+        <h2 className="flex-1 py-5 flex flex-col px-4 lg:flex-row justify-center items-center gap-2 border border-gray-400 rounded-lg shadow-sm bg-slate-200">
+          <p className="text-xl lg:text-2xl">Your Cart Value: </p>
+          <span className="font-bold text-2xl lg:text-3xl">$ {sumCart.toFixed(2)}</span>
         </h2>
       </div>
     </div>
@@ -81,15 +81,15 @@ const CartItem = ({ item, onIncreaseClick, onDecreaseClick }) => {
   const valueCartItem = price * quantity;
   return (
     <div className="item-cart h-[250px] border border-gray-200 shadow-sm overflow-hidden rounded-lg">
-      <div className="flex items-center justify-center">
-        <img src={image} alt="" className="w-[150px]" />
+      <div className="flex items-center justify-center row-span-2 lg:row-span-1">
+        <img src={image} alt="" className="w-3/5 h-full object-contain" />
       </div>
-      <div className="flex flex-col p-4 justify-evenly">
-        <p className="text-3xl font-semibold leading-snug text-gray-700">
+      <div className="flex flex-col p-4 justify-evenly gap-y-4">
+        <p className="text-xl font-semibold leading-snug lg:text-2xl text-gray-700">
           {title}
         </p>
-        <p className="text-2xl">
-          Price: <span className="ml-4 text-2xl font-bold">{price}</span>
+        <p className="text-lg lg:text-xl">
+          Price: <span className="ml-4 text-xl lg:text-2xl font-bold">{price}</span>
         </p>
         <div className="flex items-center gap-x-2">
           <button
@@ -98,7 +98,7 @@ const CartItem = ({ item, onIncreaseClick, onDecreaseClick }) => {
           >
             <span>-</span>
           </button>
-          <span className="inline-block px-2 text-xl text-gray-500 border border-gray-400 rounded ">
+          <span className="inline-block px-2 text-lg text-gray-500 border border-gray-400 rounded ">
             {quantity}
           </span>
           <button
@@ -109,8 +109,8 @@ const CartItem = ({ item, onIncreaseClick, onDecreaseClick }) => {
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-center bg-slate-200">
-        <p className="text-4xl font-bold tracking-wider">
+      <div className="flex items-center justify-center bg-slate-200 col-start-2 col-span-1 lg:col-start-3">
+        <p className="text-2xl lg:text-3xl font-bold tracking-wider">
           $ {valueCartItem.toFixed(2)}
         </p>
       </div>

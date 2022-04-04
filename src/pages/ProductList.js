@@ -32,10 +32,10 @@ const ProductList = ({ simplified }) => {
   );
 
   const handleChipClick = (value) => {
-    const newData = listProducts.filter(
-      (el) => el.category === value.toLowerCase()
-    );
-    setFilterTerm(value);
+    const searchTerm = value === filterredTerm ? "" : value
+    const newData = listProducts.filter((el) => el.category.includes(searchTerm.toLowerCase()))
+    console.log(newData)
+    setFilterTerm(searchTerm);
     setFilterList(newData);
   };
 
@@ -54,26 +54,26 @@ const ProductList = ({ simplified }) => {
           <div>Loading...</div>
         </div>
       ) : (
-        <div className="pt-32 pb-5 page-container">
-          <h2 className="py-5 mb-10 text-5xl font-bold text-center border-b-2 border-gray-300">
+        <div className={`${simplified ? "lg:pt-32 pt-16" : "pt-32"} pb-5 page-container`}>
+          <h2 className="py-3 lg:py-5 mb-5 lg:mb-10 text-3xl lg:text-5xl font-bold text-center border-b-2 border-gray-300">
             Latest Products
           </h2>
-          <div className="flex justify-center gap-x-4">
+          <div className="flex justify-center gap-4 flex-wrap ">
             {cateList.length > 0 &&
               !simplified &&
               cateList.map((el, index) => (
                 <span
                   key={index}
                   onClick={() => handleChipClick(el)}
-                  className={`chip cursor-pointer px-4 py-2 border border-gray-400 rounded-md ${
-                    filterredTerm === el ? "bg-black text-white" : null
+                  className={`flex-shrink-0 chip cursor-pointer px-4 py-2 border border-gray-400 rounded-md ${
+                    filterredTerm === el ? "bg-black text-white" : "bg-white text-black"
                   }`}
                 >
                   {el}
                 </span>
               ))}
           </div>
-          <div className="grid grid-cols-3 gap-6 py-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 py-10">
             {simplified
               ? filteredList?.slice(0, 8).map((el) => (
                   <Col

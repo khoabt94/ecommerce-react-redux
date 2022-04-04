@@ -22,7 +22,7 @@ const ProductDetail = () => {
   return (
     <div className="grid max-h-screen grid-cols-2 pt-24">
       <div className="flex justify-center p-32 ">
-        <img src={image} alt={title} className="w-1/2 h-auto" />
+        <img src={image} alt={title} className="w-1/2 h-auto object-cover" />
       </div>
       <div className="flex flex-col justify-between p-32 pl-0">
         <h2 className="text-3xl text-gray-400">{category.toUpperCase()}</h2>
