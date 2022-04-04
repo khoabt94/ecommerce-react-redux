@@ -1,10 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { clearCart, decreaseItem, increaseItem } from "../slice/cartSlice";
+import { cartSelector } from "../app/selectors";
+import { cartAction } from "../slice/cartSlice";
 
 const Cart = () => {
-  const cartList = useSelector((state) => state.cart);
+  const cartList = useSelector(cartSelector);
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -12,17 +13,17 @@ const Cart = () => {
   const sumCart = cartList.reduce((acc, el) => acc + el.price * el.quantity, 0);
 
   const handleIncreaseClick = (id) => {
-    const action = increaseItem(id);
+    const action = cartAction.increaseItem(id);
     dispatch(action);
   };
   const handleDecreaseClick = (id) => {
-    const action = decreaseItem(id);
+    const action = cartAction.decreaseItem(id);
     dispatch(action);
   };
   const handlePayment = () => {
     setSubmitting(true);
     setTimeout(() => {
-      const action = clearCart();
+      const action = cartAction.clearCart();
       dispatch(action);
       setSubmitting(false);
       navigate("/");
@@ -30,11 +31,11 @@ const Cart = () => {
   };
 
   return (
-    <div className="flex flex-col pt-16 lg:pt-32 pb-20 page-container gap-y-10">
+    <div className="flex flex-col pt-16 pb-20 lg:pt-32 page-container gap-y-10">
       <h2 className="py-5 text-5xl font-bold text-center border-b-2 border-gray-300">
         Your Cart
       </h2>
-      <div className="flex flex-col lg:w-3/4 w-full mx-auto gap-y-6">
+      <div className="flex flex-col w-full mx-auto lg:w-3/4 gap-y-6">
         {submitting ? (
           <h2 className="py-5 text-xl italic font-bold text-center">
             Your order is processed. You will be redirect to HomePage when we
@@ -51,7 +52,7 @@ const Cart = () => {
           ))
         )}
       </div>
-      <div className="flex gap-10 lg:flex-row lg:w-3/4 w-full mx-auto flex-col-reverse">
+      <div className="flex flex-col-reverse w-full gap-10 mx-auto lg:flex-row lg:w-3/4">
         <button
           type="submit"
           className="flex items-center justify-center flex-1 px-4 py-5 border border-gray-400 rounded-md btn gap-x-2"
@@ -67,9 +68,11 @@ const Cart = () => {
             </p>
           )}
         </button>
-        <h2 className="flex-1 py-5 flex flex-col px-4 lg:flex-row justify-center items-center gap-2 border border-gray-400 rounded-lg shadow-sm bg-slate-200">
+        <h2 className="flex flex-col items-center justify-center flex-1 gap-2 px-4 py-5 border border-gray-400 rounded-lg shadow-sm lg:flex-row bg-slate-200">
           <p className="text-xl lg:text-2xl">Your Cart Value: </p>
-          <span className="font-bold text-2xl lg:text-3xl">$ {sumCart.toFixed(2)}</span>
+          <span className="text-2xl font-bold lg:text-3xl">
+            $ {sumCart.toFixed(2)}
+          </span>
         </h2>
       </div>
     </div>
@@ -82,14 +85,15 @@ const CartItem = ({ item, onIncreaseClick, onDecreaseClick }) => {
   return (
     <div className="item-cart h-[250px] border border-gray-200 shadow-sm overflow-hidden rounded-lg">
       <div className="flex items-center justify-center row-span-2 lg:row-span-1">
-        <img src={image} alt="" className="w-3/5 h-full object-contain" />
+        <img src={image} alt="" className="object-contain w-3/5 h-full" />
       </div>
       <div className="flex flex-col p-4 justify-evenly gap-y-4">
-        <p className="text-xl font-semibold leading-snug lg:text-2xl text-gray-700">
+        <p className="text-xl font-semibold leading-snug text-gray-700 lg:text-2xl">
           {title}
         </p>
         <p className="text-lg lg:text-xl">
-          Price: <span className="ml-4 text-xl lg:text-2xl font-bold">{price}</span>
+          Price:{" "}
+          <span className="ml-4 text-xl font-bold lg:text-2xl">{price}</span>
         </p>
         <div className="flex items-center gap-x-2">
           <button
@@ -109,8 +113,8 @@ const CartItem = ({ item, onIncreaseClick, onDecreaseClick }) => {
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-center bg-slate-200 col-start-2 col-span-1 lg:col-start-3">
-        <p className="text-2xl lg:text-3xl font-bold tracking-wider">
+      <div className="flex items-center justify-center col-span-1 col-start-2 bg-slate-200 lg:col-start-3">
+        <p className="text-2xl font-bold tracking-wider lg:text-3xl">
           $ {valueCartItem.toFixed(2)}
         </p>
       </div>

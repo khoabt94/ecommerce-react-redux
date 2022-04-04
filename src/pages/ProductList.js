@@ -3,11 +3,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductCard } from "../components/index";
 import {
-  selectedProducts,
-  selectedProductsError,
-  selectedProductsLoading,
-} from "../slice/productsAsyncAction/selectors";
-import { productsActions } from "../slice/productsSlice";
+  errorProducts,
+  loadingProducts,
+  selectProducts,
+} from "../app/selectors";
+import { productsAction } from "../slice/productSlice";
+import SkeletonLoading from "../components/SkeletonLoading";
 
 const ProductList = ({ simplified }) => {
   const [filteredList, setFilterList] = useState([]);
@@ -15,16 +16,16 @@ const ProductList = ({ simplified }) => {
 
   const dispatch = useDispatch();
 
-  const listProducts = useSelector(selectedProducts);
-  const isError = useSelector(selectedProductsError);
-  const isLoading = useSelector(selectedProductsLoading);
+  const listProducts = useSelector(selectProducts);
+  const isError = useSelector(errorProducts);
+  const isLoading = useSelector(loadingProducts);
 
   useEffect(() => {
-    setFilterList(listProducts)
+    setFilterList(listProducts);
   }, [listProducts]);
 
   useEffect(() => {
-    dispatch(productsActions.getProducts());
+    dispatch(productsAction.getProducts());
   }, [dispatch]);
 
   const cateList = [...new Set(listProducts?.map((el) => el.category))].map(
@@ -32,9 +33,11 @@ const ProductList = ({ simplified }) => {
   );
 
   const handleChipClick = (value) => {
-    const searchTerm = value === filterredTerm ? "" : value
-    const newData = listProducts.filter((el) => el.category.includes(searchTerm.toLowerCase()))
-    console.log(newData)
+    const searchTerm = value === filterredTerm ? "" : value;
+    const newData = listProducts.filter((el) =>
+      el.category.includes(searchTerm.toLowerCase())
+    );
+    console.log(newData);
     setFilterTerm(searchTerm);
     setFilterList(newData);
   };
@@ -43,37 +46,56 @@ const ProductList = ({ simplified }) => {
 
   return (
     <Fragment>
-      {isLoading ? (
-        <div>
-          <div>Loading...</div>
-          <div>Loading...</div>
-          <div>Loading...</div>
-          <div>Loading...</div>
-          <div>Loading...</div>
-          <div>Loading...</div>
-          <div>Loading...</div>
+      <div
+        className={`${
+          simplified ? "lg:pt-32 pt-16" : "pt-32"
+        } pb-5 page-container`}
+      >
+        <h2 className="py-3 mb-5 text-3xl font-bold text-center border-b-2 border-gray-300 lg:py-5 lg:mb-10 lg:text-5xl">
+          Latest Products
+        </h2>
+
+        <div className="flex flex-wrap justify-center gap-4 ">
+          {cateList.length > 0 &&
+            !simplified &&
+            cateList.map((el, index) => (
+              <span
+                key={index}
+                onClick={() => handleChipClick(el)}
+                className={`flex-shrink-0 chip cursor-pointer px-4 py-2 border border-gray-400 rounded-md ${
+                  filterredTerm === el
+                    ? "bg-black text-white"
+                    : "bg-white text-black"
+                }`}
+              >
+                {el}
+              </span>
+            ))}
         </div>
-      ) : (
-        <div className={`${simplified ? "lg:pt-32 pt-16" : "pt-32"} pb-5 page-container`}>
-          <h2 className="py-3 lg:py-5 mb-5 lg:mb-10 text-3xl lg:text-5xl font-bold text-center border-b-2 border-gray-300">
-            Latest Products
-          </h2>
-          <div className="flex justify-center gap-4 flex-wrap ">
-            {cateList.length > 0 &&
-              !simplified &&
-              cateList.map((el, index) => (
-                <span
-                  key={index}
-                  onClick={() => handleChipClick(el)}
-                  className={`flex-shrink-0 chip cursor-pointer px-4 py-2 border border-gray-400 rounded-md ${
-                    filterredTerm === el ? "bg-black text-white" : "bg-white text-black"
-                  }`}
-                >
-                  {el}
-                </span>
-              ))}
+
+        {isLoading ? (
+          <div className="grid gap-6 py-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col h-[500px] p-3 rounded-lg border gap border-gray-200 shadow-sm">
+              <SkeletonLoading height="250px" radius="8px" />
+            </div>
+            <div className="flex flex-col h-[500px] p-3 rounded-lg border border-gray-200 shadow-sm">
+              <SkeletonLoading height="250px" radius="8px" />
+            </div>
+            <div className="flex flex-col h-[500px] p-3 rounded-lg border border-gray-200 shadow-sm">
+              <SkeletonLoading height="250px" radius="8px" />
+            </div>
+            <div className="flex flex-col h-[500px] p-3 rounded-lg border gap border-gray-200 shadow-sm">
+              <SkeletonLoading height="250px" radius="8px" />
+            </div>
+            <div className="flex flex-col h-[500px] p-3 rounded-lg border border-gray-200 shadow-sm">
+              <SkeletonLoading height="250px" radius="8px" />
+            </div>
+            <div className="flex flex-col h-[500px] p-3 rounded-lg border border-gray-200 shadow-sm">
+              <SkeletonLoading height="250px" radius="8px" />
+            </div>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 py-10">
+        ) : (
+          <div className="grid gap-6 py-10 sm:grid-cols-2 lg:grid-cols-3">
             {simplified
               ? filteredList?.slice(0, 8).map((el) => (
                   <Col
@@ -98,8 +120,8 @@ const ProductList = ({ simplified }) => {
                   </Col>
                 ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </Fragment>
   );
 };

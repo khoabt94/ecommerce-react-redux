@@ -1,21 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  getProducts, // async action
-  getProductsBuilder, // 
+  getProducts,
+  getProductsBuilder,
 } from "./productsAsyncAction/getProducts";
 
 const initialState = {
   data: [],
   isLoading: false,
-  isError: false
+  isError: false,
 };
 
 const { actions, reducer } = createSlice({
-  name: "products",
+  name: "product",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // async here
     getProductsBuilder(builder);
   },
 });
@@ -23,7 +22,6 @@ const { actions, reducer } = createSlice({
 const combineActions = {
   ...actions,
   getProducts,
-  
 };
 
-export { combineActions as productsActions, reducer };
+export { combineActions as productsAction, reducer };

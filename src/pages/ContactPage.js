@@ -4,12 +4,12 @@ import { ContactCard } from "../components/index";
 const ContactPage = () => {
   return (
     <Fragment>
-      <div className="pt-32 pb-5 page-container">
-        <h2 className="py-5 mb-10 text-5xl font-bold text-center">
+      <div className="pt-24 lg:pt-32 page-container">
+        <h2 className="py-5 mb-5 text-4xl font-bold text-center lg:text-5xl lg:mb-10">
           Contact Information
         </h2>
-        <div className="grid p-5 border border-gray-300 rounded-lg contact-container page-container ">
-          <div className="flex flex-col p-5 border-r border-gray-300 gap-y-4">
+        <div className="grid p-5 border border-gray-300 rounded-lg lg:p-5 contact-container ">
+          <div className="flex flex-col p-5 pb-5 border-b border-gray-300 lg:p-5 lg:border-b-0 lg:border-r gap-y-4">
             <p className="text-2xl font-extrabold text-gray-600">
               KTB COLLECTION
             </p>
@@ -30,7 +30,7 @@ const ContactPage = () => {
               <p>Github's Repository</p>
             </div>
           </div>
-          <div className="flex flex-col p-5 gap-y-4">
+          <div className="flex flex-col p-5 lg:pl-10 gap-y-4">
             <p className="text-2xl font-extrabold text-gray-600">
               LEAVE US QUESTIONS
             </p>

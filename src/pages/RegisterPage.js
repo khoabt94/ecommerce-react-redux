@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { InputField, SelectField } from "../components/index";
 import { userActions } from "../slice/userSlice";
+import { userSelector } from "../app/selectors";
+import { logDOM } from "@testing-library/react";
 
 const optionSex = [
   { value: "male", label: "Male" },
@@ -31,7 +33,7 @@ const schema = yup.object({
 });
 
 const RegisterPage = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector(userSelector);
   const dispatch = useDispatch();
   return (
     <Formik
@@ -46,7 +48,8 @@ const RegisterPage = () => {
       // validationSchema={schema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
-          dispatch(userActions.userRegister());
+          console.log(values);
+          dispatch(userActions.userRegister(values));
           setSubmitting(false);
           resetForm();
         }, 2000);
@@ -58,7 +61,7 @@ const RegisterPage = () => {
             <h2 className="py-5 mb-8 text-5xl font-bold text-center border-b-2 border-gray-300">
               Register
             </h2>
-            <div className=" w-[500px] mx-auto">
+            <div className=" max-w-[500px] mx-auto">
               <InputField
                 name="userName"
                 id="userName"
